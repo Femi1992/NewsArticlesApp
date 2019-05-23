@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using React.AspNet;
 using Microsoft.EntityFrameworkCore;
 using NewsArticlesApp.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace NewsArticlesApp
 {
@@ -42,6 +43,11 @@ namespace NewsArticlesApp
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddIdentity<IdentityUser, IdentityRole>()
+              .AddEntityFrameworkStores<NewsArticlesAppIdentityContext>()
+              .AddDefaultUI()
+              .AddDefaultTokenProviders();
+
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "clientapp/build";
@@ -67,6 +73,7 @@ namespace NewsArticlesApp
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseAuthentication();
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
