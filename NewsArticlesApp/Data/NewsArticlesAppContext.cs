@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using NewsArticlesApp.Models;
 
 namespace NewsArticlesApp.Models
 {
@@ -14,5 +15,7 @@ namespace NewsArticlesApp.Models
         }
 
         public DbSet<NewsArticlesApp.Models.Article> Article { get; set; }
+
+        public DbSet<NewsArticlesApp.Models.Comment> Comment { get; set; }
     }
 }
