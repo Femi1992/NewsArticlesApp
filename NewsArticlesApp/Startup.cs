@@ -14,6 +14,8 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 //using JavaScriptEngineSwitcher.ChakraCore; NOT SURE IF I'LL NEED THESE
 //using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
 using React.AspNet;
+using Microsoft.EntityFrameworkCore;
+using NewsArticlesApp.Models;
 
 namespace NewsArticlesApp
 {
@@ -39,6 +41,14 @@ namespace NewsArticlesApp
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "clientapp/build";
+            });
+
+            services.AddDbContext<NewsArticlesAppContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("NewsArticlesAppContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +74,16 @@ namespace NewsArticlesApp
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "clientapp";
+
+                if (env.IsDevelopment())
+                {
+                    spa.UseReactDevelopmentServer(npmScript: "start");
+                }
             });
         }
     }
