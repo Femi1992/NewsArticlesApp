@@ -17,5 +17,7 @@ namespace NewsArticlesApp.Models
         public DbSet<NewsArticlesApp.Models.Article> Article { get; set; }
 
         public DbSet<NewsArticlesApp.Models.Comment> Comment { get; set; }
+
+        public DbSet<NewsArticlesApp.Models.User> User { get; set; }
     }
 }
